@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  falco:
+    image: falcosecurity/falco:latest
+    container_name: falco
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - /proc:/host/proc:ro
+      - /boot:/host/boot:ro
+      - /lib/modules:/host/lib/modules:ro
+      - /usr:/host/usr:ro
+      - /etc:/host/etc:ro
+      - ./config/falco.yaml:/etc/falco/falco.yaml
+      - ./rules/falco_rules.yaml:/etc/falco/falco_rules.yaml
+      - ./rules/falco_rules.local.yaml:/etc/falco/falco_rules.local.yaml
+      - /var/log/falco:/var/log/falco
